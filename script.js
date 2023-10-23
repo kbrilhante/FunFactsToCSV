@@ -54,6 +54,12 @@ function setButton(icon) {
     return btn;
 }
 
+function removeButton(btn) {
+    if(btn) {
+        btn.remove();
+    }
+}
+
 function done() {
     txtOutput.value = "";
     const array = clearArray(txtInput.value.split("\n"));
@@ -69,6 +75,9 @@ function done() {
     txtOutput.value = csv;
     divOutput.style.display = "block";
 
+    removeButton(btnCopy);
+    removeButton(btnDown);
+    
     btnCopy = setButton("fa-solid fa-copy");
     btnCopy.onclick = copyOutput;
 

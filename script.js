@@ -55,7 +55,7 @@ function setButton(icon) {
 }
 
 function removeButton(btn) {
-    if(btn) {
+    if (btn) {
         btn.remove();
     }
 }
@@ -77,7 +77,7 @@ function done() {
 
     removeButton(btnCopy);
     removeButton(btnDown);
-    
+
     btnCopy = setButton("fa-solid fa-copy");
     btnCopy.onclick = copyOutput;
 
@@ -88,7 +88,7 @@ function done() {
 function clearArray(array) {
     for (let i = array.length - 1; i >= 0; i--) { // clear empty elements in the array
         const elm = array[i];
-        if(!elm) {
+        if (!elm) {
             array.splice(i, 1);
         }
     }
@@ -115,18 +115,17 @@ function processArrayCSV(array) {
 function processArrayPB(array) {
     let arrayCSV = [];
 
-    let count = 0;
     for (let i = 0; i < array.length; i++) {
         let line = array[i];
-        const splitLine = line.split("**");
-        splitLine.splice(0, 1);
-        if (splitLine.length) {
-            count++;
-            line = "[Game Fact #" + count + "] ";
-            line += splitLine.join("");
-            line = line.replaceAll("\"", "\\\"");
-            arrayCSV.push(line);
-        }
+        let cleanLine = line.replace(". ", "@");
+        cleanLine = cleanLine.substring(
+            cleanLine.indexOf("@") + 1
+        );
+        line = "[Game Fact #" + (i + 1) + "] ";
+        line += cleanLine;
+        line = line.replaceAll("\"", "\\\"");
+        arrayCSV.push(line);
+        console.log(line);
     }
     return arrayCSV;
 }
@@ -148,7 +147,7 @@ function copyOutput() {
 
 function downloadCSV() {
     const textContent = txtOutput.value;
-    const textFileAsBlob = new Blob([textContent], {type:'text/plain'});
+    const textFileAsBlob = new Blob([textContent], { type: 'text/plain' });
     const fileNameToSaveAs = 'funFacts.csv';
     const downloadLink = document.createElement("a");
     downloadLink.download = fileNameToSaveAs;
